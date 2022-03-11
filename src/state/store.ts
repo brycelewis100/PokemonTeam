@@ -1,20 +1,25 @@
 import { createStore } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
 import rootReducer from './reducers';
-
 // const persistedReducer = persistReducer(persistConfig, reducer);
-
-// const initialState = {
-//   players: [
-//     { idx: 0, name: null, sprite: null },
-//     { idx: 1, name: null, sprite: null },
-//     { idx: 2, name: null, sprite: null },
-//     { idx: 3, name: null, sprite: null },
-//     { idx: 4, name: null, sprite: null },
-//     { idx: 5, name: null, sprite: null },
-//   ],
-// };
 
 export const store = createStore(rootReducer);
 
 // const persistor = persistStore(store);
 // store.subscribe(() => console.log("An action has ben fired here "));
+
+// src/store/index.js
+
+// const persistConfig = {
+//  key: 'root',
+//  storage: storage,
+//  stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+// };
+
+// const pReducer = persistReducer(persistConfig, rootReducer);
+
+// export const store = createStore(pReducer);
+// export const persistor = persistStore(store);
