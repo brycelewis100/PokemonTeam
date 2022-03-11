@@ -1,55 +1,23 @@
 import { useState, useEffect } from 'react';
-import {
-  TextField,
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Card,
-  Grid,
-} from '@mui/material';
+import { Box, FormControl, OutlinedInput, Grid } from '@mui/material';
 
-import { makeStyles } from '@mui/styles';
-
-import Result from './result';
+import Result from './search-result';
 
 import axios, { AxiosResponse } from 'axios';
 
-export interface PokemonSimple {
-  name: string;
-  url: string;
-}
-
-interface Pokemon {
-  sprites: { back_default: string };
-  name: string;
-}
-
-export type TPokemonList = PokemonSimple[];
-export type TPokemonSimple = PokemonSimple;
+import { PokemonList } from '../../types';
 
 const Search = () => {
-  const [allPokemon, setAllPokemon] = useState<TPokemonList>([
-    { name: '', url: '' },
-  ]);
-
-  const [filteredPokemon, setFilteredPokemon] = useState<TPokemonList>([
-    { name: '', url: '' },
-  ]);
-
+  const init = [{ name: '', url: '' }];
+  const [allPokemon, setAllPokemon] = useState<PokemonList>(init);
+  const [filteredPokemon, setFilteredPokemon] = useState<PokemonList>(init);
   const [term, setTerm] = useState('');
 
   const getAllPokemon = async () => {
     const pokemonAllData = await axios.get(
-      'https://pokeapi.co/api/v2/pokemon/?limit=10000',
-      {
-        params: {
-          text: term,
-        },
-      }
+      'https://pokeapi.co/api/v2/pokemon/?limit=10000'
     );
-    const pokemonList: TPokemonList = pokemonAllData.data.results.filter(
+    const pokemonList: PokemonList = pokemonAllData.data.results.filter(
       (el: { name: string }) => {
         return !el.name.includes('-');
       }
@@ -62,7 +30,6 @@ const Search = () => {
     let filteredPokemon = allPokemon.filter((el) => {
       return el.name.startsWith(term);
     });
-
     setFilteredPokemon(filteredPokemon);
   };
 

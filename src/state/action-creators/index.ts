@@ -1,5 +1,5 @@
 import { ActionType } from '../action-types';
-import { Action, AddPlayerAction, RemovePlayerAction } from '../actions';
+import { AddPlayerAction, RemovePlayerAction } from '../actions';
 import { PlayerInt } from '../player';
 
 export const addPlayer = (idx: number, player: PlayerInt): AddPlayerAction => {
