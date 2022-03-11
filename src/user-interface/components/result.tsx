@@ -24,10 +24,20 @@ interface ResultProps {
   pokemon: TPokemonSimple;
 }
 
+interface PlayerState {
+  idx: number;
+  name: null | string;
+  sprite: null | string;
+}
+interface TeamState {
+  players: PlayerState[];
+}
+
 const Result: React.FC<ResultProps> = ({ pokemon }) => {
   const [sprite, setSprite] = useState<string>('');
   const { addPlayer } = useActions();
-  const players = useTypedSelector((state) => state.data.players);
+  const data = useTypedSelector((state) => state.data);
+  const players = data.players;
 
   const [full, setFull] = useState(false);
 
@@ -54,11 +64,7 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
   const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
 
   const Add = (name: string, sprite: string) => {
-    const state = store.getState();
-    const roster = state.data.players;
-    console.log(state);
-
-    const [index] = Object.entries(roster)
+    const [index] = Object.entries(players)
       .filter((entry) => {
         const [key, object] = entry;
         const objectValues = Object.values(object);

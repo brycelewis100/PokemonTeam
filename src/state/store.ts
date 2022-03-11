@@ -3,23 +3,15 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-import rootReducer from './reducers';
-// const persistedReducer = persistReducer(persistConfig, reducer);
+import rootReducer, { RootState } from './reducers';
 
-export const store = createStore(rootReducer);
+const persistConfig = {
+  key: 'root',
+  storage,
+  stateReconciler: autoMergeLevel2, // see "Merge Process" section for details.
+};
 
-// const persistor = persistStore(store);
-// store.subscribe(() => console.log("An action has ben fired here "));
+const pReducer = persistReducer<any, any>(persistConfig, rootReducer);
 
-// src/store/index.js
-
-// const persistConfig = {
-//  key: 'root',
-//  storage: storage,
-//  stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
-// };
-
-// const pReducer = persistReducer(persistConfig, rootReducer);
-
-// export const store = createStore(pReducer);
-// export const persistor = persistStore(store);
+export const store = createStore(pReducer);
+export const persistor = persistStore(store);
