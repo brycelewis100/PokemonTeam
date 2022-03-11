@@ -63,10 +63,10 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
   }, []);
 
   return (
-    <Grid item sm={6} md={3}>
+    <Grid item sm={6} md={4}>
       <Card
         style={{
-          padding: '20px',
+          padding: '15px',
           margin: '5px',
         }}
       >
@@ -75,10 +75,11 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
           <Grid item xs={6}>
             <img src={sprite} width="100%"></img>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} style={{ display: 'flex' }}>
             {!full && (
               <Button
                 variant="contained"
+                size="small"
                 onClick={() => selectPlayer(name, sprite)}
               >
                 Select
