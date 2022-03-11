@@ -1,15 +1,16 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { store } from './state';
+import { PersistGate } from 'redux-persist/lib/integration/react';
+import { persistor, store } from './state/store';
 
 import Application from './user-interface/App';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <div>
+      <PersistGate persistor={persistor}>
         <Application />
-      </div>
+      </PersistGate>
     </Provider>
   );
 };

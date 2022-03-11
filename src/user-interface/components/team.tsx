@@ -29,6 +29,7 @@ const Team = () => {
         {team.map((player) => {
           return (
             <Player
+              key={player.idx}
               idx={player.idx}
               name={player.name}
               sprite={player.sprite}
