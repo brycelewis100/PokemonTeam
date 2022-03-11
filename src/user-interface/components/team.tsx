@@ -18,7 +18,8 @@ import {
 } from '@mui/material';
 
 const Team = () => {
-  const team = useTypedSelector((state) => state.players);
+  const team = useTypedSelector((state) => state.data.players);
+
   console.log(team);
 
   return (

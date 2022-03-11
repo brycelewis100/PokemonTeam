@@ -16,7 +16,7 @@ import {
 
 const Player: React.FC<PlayerInt> = ({ idx, name, sprite }) => {
   const { removePlayer } = useActions();
-  const team = useTypedSelector((state) => state.players);
+  const team = useTypedSelector((state) => state.data.players);
 
   return (
     <Grid item sm={6} md={4}>
