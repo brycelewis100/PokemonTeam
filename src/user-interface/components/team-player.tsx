@@ -1,22 +1,11 @@
-import { PlayerInt } from '../../state';
+import { Button, Card, Grid } from '@mui/material';
+import { Player } from '../../types';
+
+//Hooks
 import { useActions } from '../../hooks/use-actions';
-import { useTypedSelector } from '../../hooks/use-typed-selector';
-import { useState, useEffect } from 'react';
 
-import {
-  TextField,
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Card,
-  Grid,
-} from '@mui/material';
-
-const Player: React.FC<PlayerInt> = ({ idx, name, sprite }) => {
+const TeamPlayer: React.FC<Player> = ({ idx, name, sprite }) => {
   const { removePlayer } = useActions();
-  const team = useTypedSelector((state) => state.data.players);
 
   return (
     <Grid item sm={6} md={4}>
@@ -49,4 +38,4 @@ const Player: React.FC<PlayerInt> = ({ idx, name, sprite }) => {
   );
 };
 
-export default Player;
+export default TeamPlayer;

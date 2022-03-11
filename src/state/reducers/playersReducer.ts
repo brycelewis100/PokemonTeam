@@ -1,20 +1,8 @@
-import { isPartiallyEmittedExpression } from 'typescript';
-import { addPlayer } from '../action-creators';
 import { ActionType } from '../action-types';
 import { Action } from '../actions';
+import { Team } from '../../types';
 
-import produce from 'immer';
-
-export interface PlayerState {
-  idx: number;
-  name: null | string;
-  sprite: null | string;
-}
-export interface TeamState {
-  players: PlayerState[];
-}
-
-const initialState: TeamState = {
+const initialState: Team = {
   players: [
     { idx: 0, name: null, sprite: null },
     { idx: 1, name: null, sprite: null },
@@ -25,48 +13,43 @@ const initialState: TeamState = {
   ],
 };
 
-const reducer = (state: TeamState = initialState, action: Action) => {
+const reducer = (state: Team = initialState, action: Action) => {
   switch (action.type) {
     case ActionType.ADD_PLAYER: {
       const { idx, player } = action.payload;
-
-      const playerComplete = {
+      const playerObj = {
         idx: idx,
         name: player.name,
         sprite: player.sprite,
       };
-
       return {
         ...state,
         players: state.players.map((player) => {
           if (player.idx === idx) {
-            return playerComplete;
+            return playerObj;
           }
           return player;
         }),
       };
     }
-
     case ActionType.REMOVE_PLAYER: {
       const { idx } = action.payload;
 
-      const playerCompelte = {
+      const playerObj = {
         idx: idx,
         name: null,
         sprite: null,
       };
-
       return {
         ...state,
         players: state.players.map((player) => {
           if (player.idx === idx) {
-            return playerCompelte;
+            return playerObj;
           }
           return player;
         }),
       };
     }
-
     default:
       return state;
   }

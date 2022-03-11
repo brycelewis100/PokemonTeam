@@ -1,34 +1,16 @@
-import { useState, useEffect } from 'react';
-import { store } from '../../state';
-import { connect } from 'react-redux';
-
+import { Box, Grid } from '@mui/material';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
-
-import Player from './player';
-
-import {
-  TextField,
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Card,
-  Grid,
-} from '@mui/material';
+import TeamPlayer from './team-player';
 
 const Team = () => {
   const team = useTypedSelector((state) => state.data.players);
-
-  console.log(team);
-
   return (
     <Box>
       <h1>Your Team</h1>
       <Grid container>
         {team.map((player) => {
           return (
-            <Player
+            <TeamPlayer
               key={player.idx}
               idx={player.idx}
               name={player.name}
