@@ -27,24 +27,24 @@ interface ResultProps {
 const Result: React.FC<ResultProps> = ({ pokemon }) => {
   const [sprite, setSprite] = useState<string>('');
   const { addPlayer } = useActions();
-  const team = useTypedSelector((state) => state.players);
+  const players = useTypedSelector((state) => state.data.players);
 
   const [full, setFull] = useState(false);
 
   useEffect(() => {
     if (
-      team[0].name &&
-      team[1].name &&
-      team[2].name &&
-      team[3].name &&
-      team[4].name &&
-      team[5].name
+      players[0].name &&
+      players[1].name &&
+      players[2].name &&
+      players[3].name &&
+      players[4].name &&
+      players[5].name
     ) {
       setFull(true);
     } else {
       setFull(false);
     }
-  }, [team]);
+  }, [players]);
 
   const getSprite = async () => {
     const response = await axios.get(pokemon.url);
@@ -55,7 +55,7 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
 
   const Add = (name: string, sprite: string) => {
     const state = store.getState();
-    const roster = state.players;
+    const roster = state.data.players;
     console.log(state);
 
     const [index] = Object.entries(roster)
