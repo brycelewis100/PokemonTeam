@@ -19,7 +19,7 @@ interface Stats {
 }
 
 const Search = () => {
-  const init = [{ name: '', url: '' }];
+  const init: PokemonList = [{ name: '', url: '' }];
   const [allPokemon, setAllPokemon] = useState<PokemonList>(init);
   const [filteredPokemon, setFilteredPokemon] = useState<PokemonList>(init);
   const [term, setTerm] = useState('');
@@ -42,16 +42,16 @@ const Search = () => {
 
   const { addPlayer } = useActions();
 
-  const handleOpen = (url: string) => {
+  const handleOpen: (url: string) => void = (url) => {
     getStats(url);
     setOpen(true);
   };
-  const handleClose = () => {
+  const handleClose: () => void = () => {
     setMessageData(messageResetVal);
     setOpen(false);
   };
 
-  const getStats = async (url: string) => {
+  const getStats: (url: string) => Promise<Stats> = async (url) => {
     const response = await axios.get<PokemonDetail>(url);
     const baseStats = response.data.stats.map((stat) => {
       return {
@@ -69,7 +69,7 @@ const Search = () => {
     return fullStats;
   };
 
-  const getAllPokemon = async () => {
+  const getAllPokemon: () => Promise<PokemonList> = async () => {
     const pokemonAllData = await axios.get<PokemonAll>(
       'https://pokeapi.co/api/v2/pokemon/?limit=10000'
     );
@@ -81,14 +81,18 @@ const Search = () => {
     return pokemonList;
   };
 
-  const search = (term: string) => {
+  const search: (term: string) => void = (term) => {
     let filteredPokemon = allPokemon.filter((el) => {
       return el.name.startsWith(term);
     });
     setFilteredPokemon(filteredPokemon);
   };
 
-  const selectPlayer = (name: string, sprite: string, players: Player[]) => {
+  const selectPlayer: (
+    name: string,
+    sprite: string,
+    players: Player[]
+  ) => void = (name, sprite, players) => {
     const [index] = Object.entries(players)
       .filter((player) => {
         const [_, object] = player;
