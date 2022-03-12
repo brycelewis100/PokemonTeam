@@ -16,6 +16,12 @@ export interface PokemonListItem {
   url: string;
 }
 
+export type PokemonList = PokemonListItem[];
+
+export type PokemonAll = {
+  results: PokemonList;
+};
+
 interface stat {
   base_stat: number;
   stat: {
@@ -27,4 +33,3 @@ export interface PokemonDetail {
   stats: stat[];
   sprites: { back_default: string };
 }
-export type PokemonList = PokemonListItem[];
