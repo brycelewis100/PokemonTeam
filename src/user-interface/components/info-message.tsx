@@ -4,7 +4,6 @@ import { Button, LinearProgress, Grid } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Player } from '../../types';
-import { useTypedSelector } from '../../hooks/use-typed-selector';
 
 const style = {
   position: 'absolute',
@@ -42,12 +41,10 @@ const InfoMessage: React.FC<MessageProps> = ({
   full,
   players,
 }) => {
-  // const players = useTypedSelector((state) => state.data.players);
-
   const name =
     messageData.name.charAt(0).toUpperCase() + messageData.name.slice(1);
 
-  const onClick = () => {
+  const onClick: () => void = () => {
     selectPlayer(name, messageData.sprite, players);
     handleClose();
   };
@@ -70,7 +67,6 @@ const InfoMessage: React.FC<MessageProps> = ({
             >
               {name}
             </Typography>
-
             {!full && (
               <Button
                 variant="contained"
@@ -81,11 +77,9 @@ const InfoMessage: React.FC<MessageProps> = ({
               </Button>
             )}
           </Box>
-
           <Box>
             <img style={{ width: '50%' }} src={messageData.sprite}></img>
           </Box>
-
           {messageData.stats.map((stat) => {
             return (
               <Box

@@ -28,7 +28,7 @@ const Result: React.FC<ResultProps> = ({
   const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
   // const players = useTypedSelector((state) => state.data.players);
 
-  const fetchSprite = async () => {
+  const fetchSprite: () => Promise<string> = async () => {
     const response = await axios.get<PokemonDetail>(pokemon.url);
     return response.data.sprites.back_default;
   };
