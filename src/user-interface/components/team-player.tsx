@@ -17,21 +17,26 @@ const TeamPlayer: React.FC<Player> = ({ idx, name, sprite }) => {
         }}
       >
         <h2>{name}</h2>
+
         {name && sprite && (
-          <Grid container style={{ display: 'flex', alignItems: 'center' }}>
-            <Grid item xs={6}>
-              <img src={sprite} width="75%"></img>
-            </Grid>
-            <Grid item xs={6} style={{ justifyContent: 'right' }}>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => removePlayer(idx)}
-              >
-                Remove
-              </Button>
-            </Grid>
-          </Grid>
+          <Box
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: '15vh',
+            }}
+          >
+            <img src={sprite} width="50%"></img>
+
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => removePlayer(idx)}
+            >
+              Remove
+            </Button>
+          </Box>
         )}
       </Card>
     </Grid>

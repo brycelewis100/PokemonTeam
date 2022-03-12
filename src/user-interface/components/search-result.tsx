@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Button, Card, Grid } from '@mui/material';
+import { Button, Card, Grid, Box } from '@mui/material';
 
 // Hooks
 import { useTypedSelector } from '../../hooks/use-typed-selector';
@@ -11,36 +11,26 @@ import { Player, PokemonListItem } from '../../types';
 
 interface ResultProps {
   pokemon: PokemonListItem;
+  handleOpen: (url: string) => void;
+  selectPlayer: (name: string, sprite: string, players: Player[]) => void;
 }
 
-const Result: React.FC<ResultProps> = ({ pokemon }) => {
+const Result: React.FC<ResultProps> = ({
+  pokemon,
+  handleOpen,
+  selectPlayer,
+}) => {
   const [sprite, setSprite] = useState<string>('');
   const [full, setFull] = useState(false);
 
-  const { addPlayer } = useActions();
+  // const { addPlayer } = useActions();
 
   const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
   const players = useTypedSelector((state) => state.data.players);
 
   const fetchSprite = async () => {
     const response = await axios.get(pokemon.url);
-    setSprite(response.data.sprites.back_default);
-  };
-
-  const selectPlayer = (name: string, sprite: string) => {
-    const [index] = Object.entries(players)
-      .filter((player) => {
-        const [_, object] = player;
-        const objectValues = Object.values(object);
-        return objectValues.some((value) => value === null);
-      })
-      .map((player) => {
-        const [key, _] = player;
-        return key;
-      });
-
-    const playerObj: Player = { idx: parseInt(index), name, sprite };
-    addPlayer(parseInt(index), playerObj);
+    return response.data.sprites.back_default;
   };
 
   useEffect(() => {
@@ -59,7 +49,15 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
   }, [players]);
 
   useEffect(() => {
-    fetchSprite();
+    let isMounted = true; // note mutable flag
+    fetchSprite().then((data) => {
+      if (isMounted) {
+        setSprite(data);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -75,12 +73,23 @@ const Result: React.FC<ResultProps> = ({ pokemon }) => {
           <Grid item xs={6}>
             <img src={sprite} width="100%"></img>
           </Grid>
-          <Grid item xs={6} style={{ display: 'flex' }}>
+          <Grid item xs={6} style={{ display: 'inline-block' }}>
+            <Button
+              variant="contained"
+              size="small"
+              style={{ width: '100%', marginBottom: '5px' }}
+              onClick={() => handleOpen(pokemon.url)}
+            >
+              info
+            </Button>
+
             {!full && (
               <Button
                 variant="contained"
+                color="success"
                 size="small"
-                onClick={() => selectPlayer(name, sprite)}
+                style={{ width: '100%' }}
+                onClick={() => selectPlayer(name, sprite, players)}
               >
                 Select
               </Button>
