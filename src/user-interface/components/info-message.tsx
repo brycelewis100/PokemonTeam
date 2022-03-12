@@ -20,6 +20,8 @@ const style = {
 
 interface MessageProps {
   open: boolean;
+  full: boolean;
+  players: Player[];
   handleClose: () => void;
   messageData: {
     name: string;
@@ -37,14 +39,19 @@ const InfoMessage: React.FC<MessageProps> = ({
   handleClose,
   messageData,
   selectPlayer,
+  full,
+  players,
 }) => {
-  const players = useTypedSelector((state) => state.data.players);
+  // const players = useTypedSelector((state) => state.data.players);
+
   const name =
     messageData.name.charAt(0).toUpperCase() + messageData.name.slice(1);
+
   const onClick = () => {
     selectPlayer(name, messageData.sprite, players);
     handleClose();
   };
+
   return (
     <div>
       <Modal
@@ -64,13 +71,15 @@ const InfoMessage: React.FC<MessageProps> = ({
               {name}
             </Typography>
 
-            <Button
-              variant="contained"
-              color="success"
-              onClick={() => onClick()}
-            >
-              Select
-            </Button>
+            {!full && (
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => onClick()}
+              >
+                Select
+              </Button>
+            )}
           </Box>
 
           <Box>

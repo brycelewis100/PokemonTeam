@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, FormControl, OutlinedInput, Grid } from '@mui/material';
 import axios from 'axios';
-
+import { useTypedSelector } from '../../hooks/use-typed-selector';
 import { PokemonList, PokemonDetail, Player } from '../../types';
 
 import Result from './search-result';
@@ -23,6 +23,9 @@ const Search = () => {
   const [allPokemon, setAllPokemon] = useState<PokemonList>(init);
   const [filteredPokemon, setFilteredPokemon] = useState<PokemonList>(init);
   const [term, setTerm] = useState('');
+  const [full, setFull] = useState(false);
+
+  const players = useTypedSelector((state) => state.data.players);
 
   const [open, setOpen] = useState(false);
   const messageResetVal = {
@@ -102,7 +105,22 @@ const Search = () => {
   };
 
   useEffect(() => {
-    let isMounted = true; // note mutable flag
+    if (
+      players[0].name &&
+      players[1].name &&
+      players[2].name &&
+      players[3].name &&
+      players[4].name &&
+      players[5].name
+    ) {
+      setFull(true);
+    } else {
+      setFull(false);
+    }
+  }, [players]);
+
+  useEffect(() => {
+    let isMounted = true;
     getAllPokemon().then((data) => {
       if (isMounted) {
         setAllPokemon(data);
@@ -121,6 +139,8 @@ const Search = () => {
         handleClose={handleClose}
         messageData={messageData}
         selectPlayer={selectPlayer}
+        full={full}
+        players={players}
       />
       <h1>Search for Pokemon</h1>
       <Box>
@@ -145,6 +165,8 @@ const Search = () => {
                   key={pokemon.name}
                   handleOpen={handleOpen}
                   selectPlayer={selectPlayer}
+                  full={full}
+                  players={players}
                 />
               );
             })}
