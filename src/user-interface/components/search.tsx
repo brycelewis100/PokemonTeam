@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, FormControl, OutlinedInput, Grid } from '@mui/material';
 import axios from 'axios';
 import { useTypedSelector } from '../../hooks/use-typed-selector';
-import { PokemonList, PokemonDetail, Player } from '../../types';
+import { PokemonAll, PokemonList, PokemonDetail, Player } from '../../types';
 
 import Result from './search-result';
 import InfoMessage from './info-message';
@@ -70,7 +70,7 @@ const Search = () => {
   };
 
   const getAllPokemon = async () => {
-    const pokemonAllData = await axios.get(
+    const pokemonAllData = await axios.get<PokemonAll>(
       'https://pokeapi.co/api/v2/pokemon/?limit=10000'
     );
     const pokemonList: PokemonList = pokemonAllData.data.results.filter(
