@@ -1,7 +1,6 @@
 import { Button, Card, Grid, Box } from '@mui/material';
 import { Player } from '../../types';
 
-//Hooks
 import { useActions } from '../../hooks/use-actions';
 
 const TeamPlayer: React.FC<Player> = ({ idx, name, sprite }) => {
@@ -17,7 +16,6 @@ const TeamPlayer: React.FC<Player> = ({ idx, name, sprite }) => {
         }}
       >
         <h2>{name}</h2>
-
         {name && sprite && (
           <Box
             style={{
@@ -28,7 +26,6 @@ const TeamPlayer: React.FC<Player> = ({ idx, name, sprite }) => {
             }}
           >
             <img src={sprite} width="50%"></img>
-
             <Button
               variant="contained"
               color="error"

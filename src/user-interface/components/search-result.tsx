@@ -4,52 +4,37 @@ import { Button, Card, Grid, Box } from '@mui/material';
 
 // Hooks
 import { useTypedSelector } from '../../hooks/use-typed-selector';
-import { useActions } from '../../hooks/use-actions';
 
 // Interfaces
-import { Player, PokemonListItem } from '../../types';
+import { Player, PokemonListItem, PokemonDetail } from '../../types';
 
 interface ResultProps {
   pokemon: PokemonListItem;
   handleOpen: (url: string) => void;
   selectPlayer: (name: string, sprite: string, players: Player[]) => void;
+  full: boolean;
+  players: Player[];
 }
 
 const Result: React.FC<ResultProps> = ({
   pokemon,
   handleOpen,
   selectPlayer,
+  full,
+  players,
 }) => {
   const [sprite, setSprite] = useState<string>('');
-  const [full, setFull] = useState(false);
-
-  // const { addPlayer } = useActions();
 
   const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-  const players = useTypedSelector((state) => state.data.players);
+  // const players = useTypedSelector((state) => state.data.players);
 
   const fetchSprite = async () => {
-    const response = await axios.get(pokemon.url);
+    const response = await axios.get<PokemonDetail>(pokemon.url);
     return response.data.sprites.back_default;
   };
 
   useEffect(() => {
-    if (
-      players[0].name &&
-      players[1].name &&
-      players[2].name &&
-      players[3].name &&
-      players[4].name &&
-      players[5].name
-    ) {
-      setFull(true);
-    } else {
-      setFull(false);
-    }
-  }, [players]);
-
-  useEffect(() => {
-    let isMounted = true; // note mutable flag
+    let isMounted = true;
     fetchSprite().then((data) => {
       if (isMounted) {
         setSprite(data);
